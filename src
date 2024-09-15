@@ -1,0 +1,89 @@
+-- Criação do banco de dados
+CREATE DATABASE SistemaControleEstoque;
+-- Explicação: Cria um novo banco de dados chamado SistemaControleEstoque.
+
+-- Seleção do banco de dados
+USE SistemaControleEstoque;
+-- Explicação: Seleciona o banco de dados SistemaControleEstoque para que todos os comandos SQL seguintes sejam executados dentro dele.
+
+-- Criação da tabela de Fornecedores
+CREATE TABLE Fornecedores (
+    FornecedorID INT PRIMARY KEY AUTO_INCREMENT,
+    NomeFornecedor VARCHAR(100),
+    ContatoFornecedor VARCHAR(100),
+    TelefoneFornecedor VARCHAR(20)
+);
+-- Explicação: Cria a tabela Fornecedores com colunas para ID do fornecedor, nome, contato e telefone. FornecedorID é a chave primária e é gerado automaticamente.
+
+-- Criação da tabela de Produtos
+CREATE TABLE Produtos (
+    ProdutoID INT PRIMARY KEY AUTO_INCREMENT,
+    NomeProduto VARCHAR(100),
+    QuantidadeEstoque INT,
+    PrecoUnitario DECIMAL(10, 2),
+    FornecedorID INT,
+    FOREIGN KEY (FornecedorID) REFERENCES Fornecedores(FornecedorID)
+);
+-- Explicação: Cria a tabela Produtos com colunas para ID do produto, nome, quantidade em estoque, preço unitário e ID do fornecedor. FornecedorID é uma chave estrangeira que referencia Fornecedores.
+
+-- Criação da tabela de Pedidos de Reposição
+CREATE TABLE PedidosReposicao (
+    PedidoID INT PRIMARY KEY AUTO_INCREMENT,
+    ProdutoID INT,
+    QuantidadeReposicao INT,
+    DataPedido DATE,
+    FOREIGN KEY (ProdutoID) REFERENCES Produtos(ProdutoID)
+);
+-- Explicação: Cria a tabela PedidosReposicao com colunas para ID do pedido, ID do produto, quantidade de reposição e data do pedido. ProdutoID é uma chave estrangeira que referencia Produtos.
+
+-- Inserção de dados na tabela de Fornecedores
+INSERT INTO Fornecedores (NomeFornecedor, ContatoFornecedor, TelefoneFornecedor)
+VALUES ('Fornecedor A', 'contato@fornecedorA.com', '1234-5678'),
+       ('Fornecedor B', 'contato@fornecedorB.com', '8765-4321');
+-- Explicação: Insere dois registros na tabela Fornecedores com informações sobre nome, contato e telefone dos fornecedores.
+
+-- Inserção de dados na tabela de Produtos
+INSERT INTO Produtos (NomeProduto, QuantidadeEstoque, PrecoUnitario, FornecedorID)
+VALUES ('Produto X', 50, 10.00, 1),
+       ('Produto Y', 30, 15.50, 2);
+-- Explicação: Insere dois registros na tabela Produtos com informações sobre nome, quantidade em estoque, preço unitário e ID do fornecedor (referenciado pela tabela Fornecedores).
+
+-- Inserção de dados na tabela de Pedidos de Reposição
+INSERT INTO PedidosReposicao (ProdutoID, QuantidadeReposicao, DataPedido)
+VALUES (1, 20, '2024-08-10'),
+       (2, 50, '2024-08-12');
+-- Explicação: Insere dois registros na tabela PedidosReposicao com informações sobre o ID do produto, quantidade de reposição e data do pedido.
+
+-- Consulta de todos os produtos em estoque
+SELECT * FROM Produtos;
+-- Explicação: Seleciona e exibe todos os registros da tabela Produtos.
+
+-- Consulta de todos os pedidos de reposição
+SELECT p.NomeProduto, pr.QuantidadeReposicao, pr.DataPedido 
+FROM PedidosReposicao pr
+JOIN Produtos p ON pr.ProdutoID = p.ProdutoID;
+-- Explicação: Seleciona e exibe o nome do produto, a quantidade de reposição e a data do pedido, juntando as tabelas PedidosReposicao e Produtos com base no ID do produto.
+
+-- Consulta dos fornecedores dos produtos
+SELECT p.NomeProduto, f.NomeFornecedor 
+FROM Produtos p
+JOIN Fornecedores f ON p.FornecedorID = f.FornecedorID;
+-- Explicação: Seleciona e exibe o nome do produto e o nome do fornecedor, juntando as tabelas Produtos e Fornecedores com base no ID do fornecedor.
+
+-- Atualização da quantidade de estoque de um produto
+UPDATE Produtos
+SET QuantidadeEstoque = QuantidadeEstoque + 20
+WHERE ProdutoID = 1;
+-- Explicação: Atualiza a quantidade de estoque do produto com ID 1, adicionando 20 unidades ao valor atual.
+
+-- Deleção de um fornecedor
+DELETE FROM Fornecedores
+WHERE FornecedorID = 2;
+-- Explicação: Remove o registro do fornecedor com ID 2 da tabela Fornecedores.
+
+-- Deleção de um produto
+DELETE FROM Produtos
+WHERE ProdutoID = 2;
+-- Explicação: Remove o registro do produto com ID 2 da tabela Produtos.
+
+
