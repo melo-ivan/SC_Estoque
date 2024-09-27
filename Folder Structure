@@ -1,0 +1,20 @@
+project/
+│
+├── src/                    # Código-fonte principal
+│   ├── __init__.py
+│   ├── main.py             # Arquivo de execução principal
+│   ├── models/             # Classes e estruturas de dados
+│   └── utils/              # Funções utilitárias
+│
+├── tests/                  # Testes unitários
+│   ├── __init__.py
+│   ├── test_main.py        # Testes para o arquivo principal
+│   └── test_models.py      # Testes para os modelos
+│
+├── docs/                   # Documentação do projeto
+│   └── manual_de_uso.md    # Explicação detalhada do uso
+│
+├── .gitignore              # Arquivos e pastas ignorados pelo Git
+├── README.md               # Descrição do projeto
+├── LICENSE                 # Licença de uso
+└── requirements.txt        # Dependências do projeto
